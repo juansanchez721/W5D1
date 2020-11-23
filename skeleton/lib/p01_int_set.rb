@@ -66,12 +66,14 @@ class ResizingIntSet
   end
 
   def insert(num)
+    @store[num] = [true] if @store[num][0] == false
   end
 
   def remove(num)
   end
 
   def include?(num)
+    @store[num][0]
   end
 
   private
