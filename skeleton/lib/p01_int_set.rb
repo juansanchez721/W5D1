@@ -51,7 +51,9 @@ class IntSet
   end
 
   def include?(num)
-    current_array = @store[num % @store.length]
+    # current_array = @store[num % @store.length]
+    current_array = self[num]
+    
     current_array.each do |el|
       if el == num 
         return true 

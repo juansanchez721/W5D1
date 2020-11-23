@@ -1,6 +1,8 @@
 class HashSet
   attr_reader :count
 
+  attr_accessor :count, :store
+
   def initialize(num_buckets = 8)
     @store = Array.new(num_buckets) { Array.new }
     @count = 0
@@ -30,6 +32,12 @@ class HashSet
   end
 
   def remove(key)
+    key_hash = key.hash
+    current_array = @store[key_hash % @store.length]
+    if current_array.include?(key)
+      current_array.delete(key)
+      self.count -= 1
+    end
   end
 
   private
