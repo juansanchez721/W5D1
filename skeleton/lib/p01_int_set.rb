@@ -31,11 +31,16 @@ end
 
 class IntSet
   def initialize(num_buckets = 20)
-    @store = Array.new(num_buckets) { Array.new(1, false)}
+    @store = Array.new(num_buckets) { Array.new}
   end
 
   def insert(num)
-    @store[num] = [true]
+    @store[num % @store.length] << num
+    # p @store.[](num)
+    
+    # p ""
+    # p num
+    # @store.[](num) << num
   end
 
   def remove(num)
@@ -43,12 +48,15 @@ class IntSet
   end
 
   def include?(num)
-    @store[num][0] == true
+    p @store[num]
+    return true if @store[num].include?(num)
   end
 
   private
 
   def [](num)
+    mod = num % @store.length
+    return @store[mod]
     # optional but useful; return the bucket corresponding to `num`
   end
 
