@@ -44,12 +44,21 @@ class IntSet
   end
 
   def remove(num)
-    @store[num] = [false]
+    current_array = @store[num % @store.length]
+    if current_array.include?(num)
+      current_array.delete(num)
+    end
   end
 
   def include?(num)
-    p @store[num]
-    return true if @store[num].include?(num)
+    current_array = @store[num % @store.length]
+    current_array.each do |el|
+      if el == num 
+        return true 
+      end
+    end
+    false
+    # return true if @store[num].include?(num)
   end
 
   private
@@ -66,7 +75,9 @@ class IntSet
 end
 
 class ResizingIntSet
-  attr_reader :count
+  # attr_reader :count
+
+  attr_accessor :count
 
   def initialize(num_buckets = 20)
     @store = Array.new(num_buckets) { Array.new }
@@ -74,14 +85,33 @@ class ResizingIntSet
   end
 
   def insert(num)
-    @store[num] = [true] if @store[num][0] == false
+    if !@store[num % @store.length].include?(num)
+      @store[num % @store.length] << num
+      self.count += 1
+      if self.count > num_buckets
+        resize!
+      end
+
+    end
   end
 
-  def remove(num)
+   def remove(num)
+    current_array = @store[num % @store.length]
+    if current_array.include?(num)
+      current_array.delete(num)
+      self.count -= 1
+    end
   end
 
-  def include?(num)
-    @store[num][0]
+ def include?(num)
+    current_array = @store[num % @store.length]
+    current_array.each do |el|
+      if el == num 
+        return true 
+      end
+    end
+    false
+    # return true if @store[num].include?(num)
   end
 
   private
